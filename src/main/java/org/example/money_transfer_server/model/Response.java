@@ -8,6 +8,10 @@ import lombok.Setter;
 public class Response {
     private String operationId;
 
+    public Response() {
+
+    }
+
     public Response(String operationId) {
         this.operationId = operationId;
     }

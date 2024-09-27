@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "https://serp-ya.github.io", allowedHeaders = "*")
+@CrossOrigin(origins = "https://serp-ya.github.io")
 public class MoneyTransferController {
     public final MoneyTransferService moneyTransferService;
 

@@ -27,11 +27,17 @@ public class MoneyTransferService {
     }
 
     public Response confirmOperation(Confirmation confirmation) {
-        Transfer transfer = moneyTransferRepository.confirmOperation(confirmation.getOperationId());
-        if (confirmation.getCode().equals("0000") && transfer != null) {
-            log.info("Transfer: {} successful", confirmation.getOperationId());
+        String id = confirmation.getOperationId();
+        String code = confirmation.getCode();
+        if (id != null) {
+            Transfer transfer = moneyTransferRepository.getTransferById(id);
+            if (transfer != null && code.equals("0000")) {
+                log.info("Transfer: {} successful", confirmation.getOperationId());
+            } else {
+                throw new TransferOrConfirmationException("Transfer id: " + confirmation.getOperationId() + " failed");
+            }
         } else {
-            throw new TransferOrConfirmationException("Transfer id: " + confirmation.getOperationId() + " failed");
+            throw new TransferOrConfirmationException("Error confirmation");
         }
         return new Response(confirmation.getOperationId());
     }
@@ -41,10 +47,10 @@ public class MoneyTransferService {
         int month = Integer.parseInt(parts[0]);
         int year = Integer.parseInt(parts[1]);
         int currentYear = LocalDate.now().getYear() % 100;
-        if (transfer.getCardFromNumber() == null && transfer.getCardFromNumber().length() == 16) {
+        if (transfer.getCardFromNumber() == null || transfer.getCardFromNumber().length() != 16) {
             throw new InputDataException("Card number must be at least 16 characters");
         }
-        if (transfer.getCardToNumber() == null && transfer.getCardToNumber().length() == 16) {
+        if (transfer.getCardToNumber() == null || transfer.getCardToNumber().length() != 16) {
             throw new InputDataException("Card number must be at least 16 characters");
         }
         if (transfer.getAmount().getValue() < 0) {

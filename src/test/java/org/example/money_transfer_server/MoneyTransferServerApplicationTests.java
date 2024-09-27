@@ -8,11 +8,10 @@ import org.example.money_transfer_server.repository.MoneyTransferRepository;
 import org.example.money_transfer_server.service.MoneyTransferService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+
 class MoneyTransferServerApplicationTests {
 
     private final MoneyTransferRepository moneyTransferRepository = Mockito.mock(MoneyTransferRepository.class);
@@ -32,7 +31,7 @@ class MoneyTransferServerApplicationTests {
     @Test
     void confirmTransferTest() {
         Confirmation confirmation = new Confirmation("1", "0000");
-        Mockito.when(moneyTransferRepository.confirmOperation("1")).thenReturn(new Transfer(new Amount(10000, "RUR"),
+        Mockito.when(moneyTransferRepository.getTransferById("1")).thenReturn(new Transfer(new Amount(10000, "RUR"),
                 "1111222233334444", "02/26",
                 "365", "9999888877773333"));
         Response response = moneyTransferService.confirmOperation(confirmation);

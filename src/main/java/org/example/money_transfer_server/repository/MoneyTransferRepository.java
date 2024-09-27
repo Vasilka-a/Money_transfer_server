@@ -23,7 +23,7 @@ public class MoneyTransferRepository {
         return transferId;
     }
 
-    public Transfer confirmOperation(String id) {
+    public Transfer getTransferById(String id) {
         if (!bankCardMap.containsKey(id)) {
             return null;
         }
